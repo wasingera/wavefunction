@@ -1,9 +1,14 @@
 #include <stdio.h>
+#include <map>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include "colors.h"
-
-void print_character(char c);
-void generate_rules(char src[3][3]);
+#include "utility.h"
+#include "Rules.hpp"
+/* const int SRC_X = 3; */
+/* const int SRC_Y = 3; */
 
 int main() {
     // Create rule list
@@ -27,32 +32,18 @@ int main() {
     // pick lowest entropy spots first -- low entropy means less choices
 
     // source tileset
-    char src[3][3]  {{'S', 'S', 'S'},
-                     {'C', 'C', 'S'},
-                     {'L', 'L', 'C'}};
+    char src[SRC_X][SRC_Y]  {{'S', 'S', 'S'},
+                             {'C', 'C', 'S'},
+                             {'L', 'L', 'C'}};
+
+    Rules r(src);
+    r.print_rules();
+    r.print_weights();
 
     // output tileset
     char out[10][10]  {};
 
-    generate_rules(src);
+    /* generate_rules(src); */
     
     return 0;
-}
-
-void generate_rules(char src[3][3]) {
-    print_character(src[0][0]);
-}
-
-void print_character(char c) {
-    switch (c) {
-        case 'S':
-            printf(CYN " %c" NC, c);
-            break;
-        case 'C':
-            printf(YLW " %c" NC, c);
-            break;
-        case 'L':
-            printf(GRN " %c" NC, c);
-            break;
-    }
 }
