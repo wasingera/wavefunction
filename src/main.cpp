@@ -8,6 +8,7 @@
 #include "utility.h"
 #include "Rules.hpp"
 #include "Tile.hpp"
+#include "Board.hpp"
 /* const int SRC_X = 3; */
 /* const int SRC_Y = 3; */
 
@@ -41,11 +42,12 @@ int main() {
     r.print_rules();
     r.print_weights();
 
-    Tile<char> test(r.weights);
-    test.remove_position('L');
+    Board<char> board(r.weights);
+
 
     // output tileset
     char out[10][10] {};
+
 
     /* generate_rules(src); */
     

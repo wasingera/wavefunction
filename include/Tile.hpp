@@ -4,6 +4,7 @@
 #include <map>
 #include <utility>
 #include <cmath>
+#include <iostream>
 
 template<class T>
 class Tile {
@@ -11,6 +12,8 @@ class Tile {
     public:
         positionsList positions;
         double entropy;
+
+        Tile() : positions{} {}
 
         Tile(positionsList& pos) : positions{pos} {
             calculate_entropy();
@@ -31,6 +34,15 @@ class Tile {
         void remove_position(T&& pos) {
             positions.erase(pos);
             calculate_entropy();
+        }
+
+        void set_positions(positionsList& pos) {
+            positions = pos;
+            calculate_entropy();
+        }
+
+        void print_entropy() {
+            std::cout << "Entropy: " << entropy;
         }
 };
 
