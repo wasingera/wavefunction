@@ -11,11 +11,12 @@ class Tile {
     using positionsList = std::map<T, double>;
     public:
         positionsList positions;
+        T state;
         double entropy;
 
-        Tile() : positions{} {}
+        Tile() : positions{}, state{} {}
 
-        Tile(positionsList& pos) : positions{pos} {
+        Tile(positionsList& pos) : positions{pos}, state{} {
             calculate_entropy();
         }
 

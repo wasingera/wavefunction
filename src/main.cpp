@@ -1,8 +1,11 @@
+#include <ctime>
 #include <stdio.h>
 #include <map>
 #include <string>
 #include <tuple>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 #include "colors.h"
 #include "utility.h"
@@ -33,6 +36,8 @@ int main() {
 
     // pick lowest entropy spots first -- low entropy means less choices
 
+    srand(time(0));
+
     // source tileset
     char src[SRC_X][SRC_Y]  {{'S', 'S', 'S'},
                              {'C', 'C', 'S'},
@@ -43,6 +48,8 @@ int main() {
     r.print_weights();
 
     Board<char> board(r.weights);
+    board.solve_board();
+    board.print_board();
 
 
     // output tileset
