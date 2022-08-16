@@ -1,5 +1,6 @@
 #include "utility.h"
 #include "colors.h"
+#include <vector>
 
 void print_tuple(rule r) {
     std::cout << std::get<0>(r) << " " << std::get<1>(r) << " " << std::get<2>(r);
@@ -17,4 +18,27 @@ void print_character(char c) {
             printf(GRN " %c" NC, c);
             break;
     }
+}
+
+int weighted_random_index(std::vector<double> weights) {
+    std::vector<double> cumProb;
+    double cumSum {0};
+
+    // generative cumulative probability distribution
+    for (auto n : weights) {
+        cumSum += n;
+        cumProb.push_back(cumSum);
+    }
+
+    // generate random fraction
+    double p = rand() / (double) RAND_MAX;
+
+    for (int i = 0; i < weights.size(); i++) {
+        // compare p against cumulative probability to get good distribution of indices
+        if (p < cumProb[i]) {
+            return i;
+        }
+    }
+
+    return weights.size() - 1;
 }

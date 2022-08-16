@@ -44,8 +44,14 @@ class Board {
                 // pick random state
                 int pos = rand() % t.positions.size();
                 std::vector<T> keys;
-                for (auto e : t.positions) keys.push_back(e.first);
-                t.state = keys[pos];
+                std::vector<double> weights;
+                for (auto e : t.positions) {
+                    keys.push_back(e.first);
+                    weights.push_back(e.second);
+                }
+
+                t.state = keys[weighted_random_index(weights)];
+                // set to max entropy so tile isn't chosen again
                 t.entropy = std::numeric_limits<double>::max();
 
                 // update positions lists based on rules
@@ -61,7 +67,6 @@ class Board {
 
             for (auto& row : board) {
                 for (auto& tile : row) {
-                    // skip if tile has already been determined
                     // add some randomness to selection if there are tile with same entropy
                     int breaker {rand() % 100};
 
