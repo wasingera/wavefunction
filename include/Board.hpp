@@ -83,21 +83,22 @@ class Board {
                         // check what states are allowed compared to left side
                         // so look at left tile, then what can be on its right?
                         auto& left = board[i][j - 1];
-                        curr.update_positions(r[left.state]['r']);
+                        curr.update_positions(r[left.state]["RIGHT"]);
                     }
 
-                    if (j < (OUTPUT_WIDTH - 1) && board[i][j + 1].state && !curr.state) {
+                    // check right
+                    if (j < (OUTPUT_WIDTH - 2) && board[i][j + 1].state && !curr.state) {
                         auto& right = board[i][j + 1];
-                        curr.update_positions(r[right.state]['l']);
+                        curr.update_positions(r[right.state]["LEFT"]);
                     }
 
                     if (i > 0 && board[i - 1][j].state && !curr.state) {
                         auto& up = board[i - 1][j];
-                        curr.update_positions(r[up.state]['d']);
+                        curr.update_positions(r[up.state]["DOWN"]);
                     }
                     if (i < (OUTPUT_HEIGHT - 1) && board[i + 1][j].state && !curr.state) {
                         auto& down = board[i + 1][j];
-                        curr.update_positions(r[down.state]['u']);
+                        curr.update_positions(r[down.state]["UP"]);
                     }
 
                     // don't want to reset a determined tile so put in if statement

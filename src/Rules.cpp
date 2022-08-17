@@ -1,11 +1,7 @@
 #include "Rules.hpp"
 #include "utility.h"
 
-// TODO: use initializer lists -- when refactoring
-Rules::Rules(char src[SRC_Y][SRC_X]) {
-    rules = generate_rules(src);
-    weights = generate_weights(src);
-}
+Rules::Rules(char src[SRC_Y][SRC_X]) : rules{generate_rules(src)}, weights{generate_weights(src)} {}
 
 weightsMap Rules::generate_weights(char src[SRC_Y][SRC_X]) {
     weightsMap weights;
@@ -37,28 +33,28 @@ rulesMap Rules::generate_rules(char src[SRC_Y][SRC_X]) {
             // Check left
             if (j > 0) {
                 char left = src[i][j - 1];
-                rules[curr]['l'].insert(left);
+                rules[curr]["LEFT"].insert(left);
                 /* rule t {curr, left, "LEFT"}; */
                 /* rules[curr].push_back(t); */
             }
             // Check right
             if (j < SRC_X - 1) {
                 char right = src[i][j + 1];
-                rules[curr]['r'].insert(right);
+                rules[curr]["RIGHT"].insert(right);
                 /* rule t {curr, right, "RIGHT"}; */
                 /* rules[curr].push_back(t); */
             }
             // Check up
             if (i > 0) {
                 char up = src[i - 1][j];
-                rules[curr]['u'].insert(up);
+                rules[curr]["UP"].insert(up);
                 /* rule t {curr, up, "UP"}; */
                 /* rules[curr].push_back(t); */
             }
             // Check down
             if (i < SRC_Y - 1) {
                 char down = src[i + 1][j];
-                rules[curr]['d'].insert(down);
+                rules[curr]["DOWN"].insert(down);
                 /* rule t {curr, down, "DOWN"}; */
                 /* rules[curr].push_back(t); */
             }

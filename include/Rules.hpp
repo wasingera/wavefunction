@@ -7,11 +7,12 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <string>
 
 using rule = std::tuple<char, char, std::string>;
 /* using rulesMap = std::map<char, std::vector<std::tuple<char, char, std::string>>>; */
 using weightsMap = std::map<char, double>;
-using rulesMap = std::map<char, std::map<char, std::set<char>>>;
+using rulesMap = std::map<char, std::map<std::string, std::set<char>>>;
 
 const int SRC_X = 3;
 const int SRC_Y = 3;

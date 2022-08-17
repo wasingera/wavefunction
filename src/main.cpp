@@ -42,9 +42,12 @@ int main() {
     /* char src[SRC_X][SRC_Y]  {{'S', 'S', 'S'}, */
     /*                          {'C', 'C', 'S'}, */
     /*                          {'L', 'L', 'C'}}; */
-    char src[SRC_X][SRC_Y]  {{'S', 'C', 'S'},
-                             {'C', 'L', 'C'},
-                             {'L', 'L', 'C'}};
+    char src[SRC_X][SRC_Y]  {{'L', 'C', 'L'},
+                             {'C', 'S', 'C'},
+                             {'L', 'C', 'L'}};
+    /* char src[SRC_X][SRC_Y]  {{'S', 'C', 'S'}, */
+    /*                          {'C', 'L', 'C'}, */
+    /*                          {'L', 'L', 'C'}}; */
 
     /* Rules r(src); */
     /* r.print_rules(); */
