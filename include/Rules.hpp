@@ -5,11 +5,13 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <set>
 #include <algorithm>
 
 using rule = std::tuple<char, char, std::string>;
-using rulesMap = std::map<char, std::vector<std::tuple<char, char, std::string>>>;
+/* using rulesMap = std::map<char, std::vector<std::tuple<char, char, std::string>>>; */
 using weightsMap = std::map<char, double>;
+using rulesMap = std::map<char, std::map<char, std::set<char>>>;
 
 const int SRC_X = 3;
 const int SRC_Y = 3;
@@ -25,7 +27,7 @@ class Rules {
         void print_weights();
     private:
         rulesMap generate_rules(char src[SRC_Y][SRC_X]);
-        weightsMap  generate_weights(char src[SRC_Y][SRC_X]);
+        weightsMap generate_weights(char src[SRC_Y][SRC_X]);
 };
 
 #endif

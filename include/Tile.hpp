@@ -5,6 +5,8 @@
 #include <utility>
 #include <cmath>
 #include <iostream>
+#include <set>
+#include <iterator>
 
 template<class T>
 class Tile {
@@ -34,6 +36,17 @@ class Tile {
 
         void remove_position(T&& pos) {
             positions.erase(pos);
+            calculate_entropy();
+        }
+
+        void update_positions(std::set<T>& allowed) {
+            for (auto it = positions.begin(); it != positions.end();) {
+                if (allowed.find(it->first) == allowed.end())
+                    it = positions.erase(it);
+                else
+                    it++;
+            }
+
             calculate_entropy();
         }
 

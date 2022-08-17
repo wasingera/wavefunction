@@ -3,12 +3,14 @@
 
 #include <array>
 #include <cstdlib>
+#include <tuple>
 #include <vector>
 #include <iostream>
 #include <limits>
 
 #include "Tile.hpp"
 #include "utility.h"
+#include "Rules.hpp"
 
 const int OUTPUT_WIDTH  {10};
 const int OUTPUT_HEIGHT {10};
@@ -19,10 +21,13 @@ class Board {
     using boardArray = std::array<std::array<Tile<T>, OUTPUT_HEIGHT>, OUTPUT_WIDTH>;
 
     public:
+
         boardArray board;
         positionsList positions;
-        
-        Board(positionsList& pos) : positions{pos} {
+        Rules rules;
+
+        Board(char src[SRC_Y][SRC_X]) : rules{src} {
+            positions = rules.weights;
             for (auto& row : board) {
                 for (auto& tile : row) {
                     // load in the default positions to each tile
@@ -30,7 +35,7 @@ class Board {
                 }
             }
         }
-
+        
         void solve_board() {
             int total {OUTPUT_WIDTH * OUTPUT_HEIGHT};
             int solved {0};
@@ -55,6 +60,7 @@ class Board {
                 t.entropy = std::numeric_limits<double>::max();
 
                 // update positions lists based on rules
+                update_tile_positions();
 
                 // increment solved
                 solved++;
@@ -62,12 +68,50 @@ class Board {
 
         }
 
+        void update_tile_positions() {
+            rulesMap r = rules.rules;
+
+            for (int i = 0; i < OUTPUT_HEIGHT; i++) {
+                for (int j = 0; j < OUTPUT_WIDTH; j++) {
+                    // update left if exists
+                    auto& curr = board[i][j];
+
+
+                    // if we are next to determined state and we aren't determined, we need to check the rules
+                    // check to the left -- look for CURR COMPARE LEFT
+                    if (j > 0 && board[i][j - 1].state && !curr.state) {
+                        // check what states are allowed compared to left side
+                        // so look at left tile, then what can be on its right?
+                        auto& left = board[i][j - 1];
+                        curr.update_positions(r[left.state]['r']);
+                    }
+
+                    if (j < (OUTPUT_WIDTH - 1) && board[i][j + 1].state && !curr.state) {
+                        auto& right = board[i][j + 1];
+                        curr.update_positions(r[right.state]['l']);
+                    }
+
+                    if (i > 0 && board[i - 1][j].state && !curr.state) {
+                        auto& up = board[i - 1][j];
+                        curr.update_positions(r[up.state]['d']);
+                    }
+                    if (i < (OUTPUT_HEIGHT - 1) && board[i + 1][j].state && !curr.state) {
+                        auto& down = board[i + 1][j];
+                        curr.update_positions(r[down.state]['u']);
+                    }
+
+                    // don't want to reset a determined tile so put in if statement
+                    if (!curr.state) board[i][j].calculate_entropy();
+                }
+            }
+        }
+
         Tile<T>& find_lowest_tile() {
             Tile<T> *low = &board[0][0];
 
             for (auto& row : board) {
                 for (auto& tile : row) {
-                    // add some randomness to selection if there are tile with same entropy
+                    // add some randomness to selection if there are tiles with same entropy
                     int breaker {rand() % 100};
 
                     if (tile.entropy < low->entropy)
@@ -82,8 +126,11 @@ class Board {
 
         void print_board() {
             std::cout << '\n';
+            std::cout << "OUTPUT:\n";
             for (auto& row : board) {
+                std::cout << "    ";
                 for (auto& tile : row) {
+                    /* std::cout << tile.entropy << ' '; */
                     print_character(tile.state);
                 }
                 std::cout << std::endl;

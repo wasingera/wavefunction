@@ -39,15 +39,30 @@ int main() {
     srand(time(0));
 
     // source tileset
-    char src[SRC_X][SRC_Y]  {{'S', 'S', 'S'},
-                             {'C', 'C', 'S'},
+    /* char src[SRC_X][SRC_Y]  {{'S', 'S', 'S'}, */
+    /*                          {'C', 'C', 'S'}, */
+    /*                          {'L', 'L', 'C'}}; */
+    char src[SRC_X][SRC_Y]  {{'S', 'C', 'S'},
+                             {'C', 'L', 'C'},
                              {'L', 'L', 'C'}};
 
-    Rules r(src);
-    r.print_rules();
-    r.print_weights();
+    /* Rules r(src); */
+    /* r.print_rules(); */
+    /* r.print_weights(); */
 
-    Board<char> board(r.weights);
+    std::cout << "SOURCE:\n";
+    for (int i = 0; i < 3; i++) {
+        std::cout << "    ";
+        for (int j = 0; j < 3; j++) {
+            print_character(src[i][j]);
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+
+    Board<char> board(src);
+    board.rules.print_rules();
+    board.rules.print_weights();
     board.solve_board();
     board.print_board();
 
