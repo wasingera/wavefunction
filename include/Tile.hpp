@@ -40,14 +40,25 @@ class Tile {
         }
 
         void update_positions(std::set<T>& allowed) {
+            std::cout << "ALLOWED: " << set_to_string(allowed) << std::endl;
             for (auto it = positions.begin(); it != positions.end();) {
-                if (allowed.find(it->first) == allowed.end())
+                if (allowed.find(it->first) == allowed.end()) {
+                    update_weights(it->second);
                     it = positions.erase(it);
+                }
                 else
-                    it++;
+                    ++it;
             }
 
             calculate_entropy();
+        }
+
+        void update_weights(double wRemoved) {
+            /* std::cout << "DELETING: " << wRemoved << std::endl; */
+            if (!positions.size()) return;
+            for (auto& e : positions) {
+                e.second += wRemoved / (positions.size() - 1);
+            }
         }
 
         void set_positions(positionsList& pos) {

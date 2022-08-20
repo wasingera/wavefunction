@@ -39,12 +39,12 @@ int main() {
     srand(time(0));
 
     // source tileset
-    /* char src[SRC_X][SRC_Y]  {{'S', 'S', 'S'}, */
-    /*                          {'C', 'C', 'S'}, */
-    /*                          {'L', 'L', 'C'}}; */
-    char src[SRC_X][SRC_Y]  {{'L', 'C', 'L'},
-                             {'C', 'S', 'C'},
-                             {'L', 'C', 'L'}};
+    char src[SRC_X][SRC_Y]  {{'S', 'S', 'S'},
+                             {'C', 'C', 'S'},
+                             {'L', 'L', 'C'}};
+    /* char src[SRC_X][SRC_Y]  {{'L', 'C', 'L'}, */
+    /*                          {'C', 'S', 'C'}, */
+    /*                          {'L', 'C', 'L'}}; */
     /* char src[SRC_X][SRC_Y]  {{'S', 'C', 'S'}, */
     /*                          {'C', 'L', 'C'}, */
     /*                          {'L', 'L', 'C'}}; */
@@ -68,7 +68,7 @@ int main() {
     board.rules.print_weights();
     board.solve_board();
     board.print_board();
-
+    board.print_board_entropy();
 
     // output tileset
     char out[10][10] {};

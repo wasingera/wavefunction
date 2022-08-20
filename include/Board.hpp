@@ -56,10 +56,12 @@ class Board {
                 }
 
                 t.state = keys[weighted_random_index(weights)];
+                /* std::cout << "ASSIGNED: " << t.state << " for " << solved << std::endl; */
                 // set to max entropy so tile isn't chosen again
                 t.entropy = std::numeric_limits<double>::max();
 
                 // update positions lists based on rules
+                std::cout << "POSITIO: " << vect_to_string(keys) << std::endl;
                 update_tile_positions();
 
                 // increment solved
@@ -73,9 +75,8 @@ class Board {
 
             for (int i = 0; i < OUTPUT_HEIGHT; i++) {
                 for (int j = 0; j < OUTPUT_WIDTH; j++) {
-                    // update left if exists
-                    auto& curr = board[i][j];
 
+                    auto& curr = board[i][j];
 
                     // if we are next to determined state and we aren't determined, we need to check the rules
                     // check to the left -- look for CURR COMPARE LEFT
@@ -87,22 +88,28 @@ class Board {
                     }
 
                     // check right
-                    if (j < (OUTPUT_WIDTH - 2) && board[i][j + 1].state && !curr.state) {
+                    if (j < (OUTPUT_WIDTH - 1) && board[i][j + 1].state && !curr.state) {
                         auto& right = board[i][j + 1];
                         curr.update_positions(r[right.state]["LEFT"]);
                     }
 
+                    // check up
                     if (i > 0 && board[i - 1][j].state && !curr.state) {
                         auto& up = board[i - 1][j];
                         curr.update_positions(r[up.state]["DOWN"]);
                     }
-                    if (i < (OUTPUT_HEIGHT - 1) && board[i + 1][j].state && !curr.state) {
+
+                    // check down
+                    if (i < (OUTPUT_HEIGHT  - 1) && board[i + 1][j].state && !curr.state) {
                         auto& down = board[i + 1][j];
                         curr.update_positions(r[down.state]["UP"]);
                     }
-
+                    /* std::cout << "ALLOWED: "; */
+                    /* for (auto e : curr.positions) */
+                    /*     std::cout << e.first << ' '; */
+                    /* std::cout << std::endl; */
                     // don't want to reset a determined tile so put in if statement
-                    if (!curr.state) board[i][j].calculate_entropy();
+                    if (!curr.state) curr.calculate_entropy();
                 }
             }
         }
@@ -133,6 +140,18 @@ class Board {
                 for (auto& tile : row) {
                     /* std::cout << tile.entropy << ' '; */
                     print_character(tile.state);
+                }
+                std::cout << std::endl;
+            }
+        }
+
+        void print_board_entropy() {
+            std::cout << '\n';
+            std::cout << "ENTROPY:\n";
+            for (auto& row : board) {
+                std::cout << "    ";
+                for (auto& tile : row) {
+                    std::cout << tile.entropy << ' ';
                 }
                 std::cout << std::endl;
             }

@@ -1,6 +1,25 @@
 #include "utility.h"
 #include "colors.h"
-#include <vector>
+
+std::string set_to_string(std::set<char>& s) {
+    std::string r;
+    for (auto e : s) {
+        r += e;
+        r += " ";
+    }
+
+    return r;
+}
+
+std::string vect_to_string(std::vector<char>& v) {
+    std::string r;
+    for (auto e : v) {
+        r += e;
+        r += " ";
+    }
+
+    return r;
+}
 
 void print_tuple(rule r) {
     std::cout << std::get<0>(r) << " " << std::get<1>(r) << " " << std::get<2>(r);
@@ -36,9 +55,9 @@ int weighted_random_index(std::vector<double> weights) {
     for (int i = 0; i < weights.size(); i++) {
         // compare p against cumulative probability to get good distribution of indices
         if (p < cumProb[i]) {
+            /* std::cout << "RETURNING: " << i << std::endl; */
             return i;
         }
     }
-
     return weights.size() - 1;
 }
