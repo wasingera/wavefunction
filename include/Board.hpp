@@ -36,7 +36,7 @@ class Board {
             }
         }
         
-        void solve_board() {
+        bool solve_board() {
             int total {OUTPUT_WIDTH * OUTPUT_HEIGHT};
             int solved {0};
 
@@ -47,7 +47,7 @@ class Board {
                 Tile<T>& t = find_lowest_tile();
 
                 // pick random state
-                int pos = rand() % t.positions.size();
+                /* int pos = rand() % t.positions.size(); */
                 std::vector<T> keys;
                 std::vector<double> weights;
                 for (auto e : t.positions) {
@@ -55,19 +55,21 @@ class Board {
                     weights.push_back(e.second);
                 }
 
+                if (!keys.size()) return false;
+
                 t.state = keys[weighted_random_index(weights)];
                 /* std::cout << "ASSIGNED: " << t.state << " for " << solved << std::endl; */
                 // set to max entropy so tile isn't chosen again
                 t.entropy = std::numeric_limits<double>::max();
 
                 // update positions lists based on rules
-                std::cout << "POSITIO: " << vect_to_string(keys) << std::endl;
+                /* std::cout << "POSITIO: " << vect_to_string(keys) << std::endl; */
                 update_tile_positions();
 
                 // increment solved
                 solved++;
             }
-
+            return true;
         }
 
         void update_tile_positions() {
@@ -154,6 +156,17 @@ class Board {
                     std::cout << tile.entropy << ' ';
                 }
                 std::cout << std::endl;
+            }
+        }
+
+        void reset_board() {
+            positions = rules.weights;
+            for (auto& row : board) {
+                for (auto& tile : row) {
+                    // load in the default positions to each tile
+                    tile.set_positions(positions);
+                    tile.state = '\0';
+                }
             }
         }
 

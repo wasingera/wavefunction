@@ -66,9 +66,18 @@ int main() {
     Board<char> board(src);
     board.rules.print_rules();
     board.rules.print_weights();
-    board.solve_board();
+
+    bool solved = false;
+    do {
+        solved = board.solve_board();
+        if (!solved) {
+            std::cout << "Resetting" << std::endl;
+            board.reset_board();
+        }
+    } while (!solved);
+
     board.print_board();
-    board.print_board_entropy();
+    /* board.print_board_entropy(); */
 
     // output tileset
     char out[10][10] {};

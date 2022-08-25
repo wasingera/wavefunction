@@ -31,7 +31,11 @@ class Tile {
                 sumLogWeight += p.second * log(p.second);
             }
 
+            sumWeight = sumWeight > 0 ? sumWeight : 1;
+
             entropy = log(sumWeight) - (sumLogWeight / sumWeight);
+            /* std::cout << "SUMWEIGHT: " << sumWeight << std::endl; */
+            /* std::cout << "LOG SUM: " << log(sumWeight) << std::endl; */
         }
 
         void remove_position(T&& pos) {
@@ -40,7 +44,7 @@ class Tile {
         }
 
         void update_positions(std::set<T>& allowed) {
-            std::cout << "ALLOWED: " << set_to_string(allowed) << std::endl;
+            /* std::cout << "ALLOWED: " << allowed.size() << std::endl; */
             for (auto it = positions.begin(); it != positions.end();) {
                 if (allowed.find(it->first) == allowed.end()) {
                     update_weights(it->second);
@@ -56,7 +60,10 @@ class Tile {
         void update_weights(double wRemoved) {
             /* std::cout << "DELETING: " << wRemoved << std::endl; */
             if (!positions.size()) return;
+
             for (auto& e : positions) {
+                /* double denom = (positions.size() - 1 > 0) ? positions.size() - 1 : 1; */
+                /* std::cout << "WREMOV: " << wRemoved << std::endl; */
                 e.second += wRemoved / (positions.size() - 1);
             }
         }
