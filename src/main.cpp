@@ -66,6 +66,7 @@ int main() {
     Board<char> board(src);
     board.rules.print_rules();
     board.rules.print_weights();
+    board.print_board_entropy();
 
     bool solved = false;
     do {
@@ -77,7 +78,7 @@ int main() {
     } while (!solved);
 
     board.print_board();
-    /* board.print_board_entropy(); */
+    board.print_board_entropy();
 
     // output tileset
     char out[10][10] {};

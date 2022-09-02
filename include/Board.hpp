@@ -117,21 +117,30 @@ class Board {
         }
 
         Tile<T>& find_lowest_tile() {
-            Tile<T> *low = &board[0][0];
+            /* Tile<T> *low = &board[0][0]; */
+            std::vector<Tile<T> *> low;
 
             for (auto& row : board) {
                 for (auto& tile : row) {
                     // add some randomness to selection if there are tiles with same entropy
-                    int breaker {rand() % 100};
+                    if (!low.size()) {
+                        low.push_back(&tile);
+                        continue;
+                    }
 
-                    if (tile.entropy < low->entropy)
-                        low = &tile;
-                    else if (tile.entropy == low->entropy) {
-                        if (breaker < 50) low = &tile;
+                    if (tile.entropy < low[0]->entropy) {
+                        low.erase(low.begin(), low.end());
+                        low.push_back(&tile);
+                    }
+                    else if (tile.entropy == low[0]->entropy) {
+                        low.push_back(&tile);
                     }
                 }
             }
-            return *low;
+
+            int random_index = rand() % low.size();
+
+            return *(low[random_index]);
         }
 
         void print_board() {

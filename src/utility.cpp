@@ -48,8 +48,8 @@ int weighted_random_index(std::vector<double> weights) {
         cumSum += n;
         cumProb.push_back(cumSum);
     }
-    for (auto e: cumProb) std::cout << e << ' ';
-    std::cout << std::endl;
+    /* for (auto e: cumProb) std::cout << e << ' '; */
+    /* std::cout << std::endl; */
     /* std::cout << "LENGTH: " << weights.size() << std::endl; */
     /* std::cout << "cumSum: " << cumSum << std::endl; */
 
@@ -58,11 +58,11 @@ int weighted_random_index(std::vector<double> weights) {
 
     for (int i = 0; i < weights.size(); i++) {
         // compare p against cumulative probability to get good distribution of indices
-        std::cout << "P : " << p << std::endl;
-        std::cout << "I : " << i << std::endl;
-        std::cout << "CP: " << cumProb[i] << std::endl;
+        /* std::cout << "P : " << p << std::endl; */
+        /* std::cout << "I : " << i << std::endl; */
+        /* std::cout << "CP: " << cumProb[i] << std::endl; */
         if (p < cumProb[i]) {
-            std::cout << "RETURNING: " << i << std::endl;
+            /* std::cout << "RETURNING: " << i << std::endl; */
             return i;
         }
     }
